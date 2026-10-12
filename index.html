@@ -186,8 +186,9 @@
 
   function moveNoButton() {
     const margin = 20;
+    const gap = 25;
 
-    // Đổi sang fixed khi nút bắt đầu chạy để luôn tính theo màn hình.
+    // Luôn để nút Không ở trên cùng.
     noButton.style.position = "fixed";
     noButton.style.zIndex = "9999";
 
@@ -197,37 +198,43 @@
     const maxX = Math.max(margin, window.innerWidth - buttonWidth - margin);
     const maxY = Math.max(margin, window.innerHeight - buttonHeight - margin);
 
-    const x = margin + Math.random() * Math.max(0, maxX - margin);
-    const y = margin + Math.random() * Math.max(0, maxY - margin);
+    // Tìm vị trí ngẫu nhiên nhưng KHÔNG đặt nút Không đè lên nút Daaaaa.
+    const yesRect = yesButton.getBoundingClientRect();
+    let x, y;
+    let tries = 0;
+
+    do {
+      x = margin + Math.random() * Math.max(0, maxX - margin);
+      y = margin + Math.random() * Math.max(0, maxY - margin);
+      tries++;
+
+      const overlapsYes =
+        x < yesRect.right + gap &&
+        x + buttonWidth > yesRect.left - gap &&
+        y < yesRect.bottom + gap &&
+        y + buttonHeight > yesRect.top - gap;
+
+      if (!overlapsYes || tries >= 100) break;
+    } while (true);
 
     noButton.style.left = `${x}px`;
     noButton.style.top = `${y}px`;
   }
 
-  // Máy tính: rê chuột vào là nút chạy.
+  // Máy tính: rê chuột vào là nút Không chạy.
   noButton.addEventListener("mouseenter", moveNoButton);
 
-  // Điện thoại: chạm vào là nút chạy, không làm mất nút.
+  // Điện thoại: chạm vào là nút Không chạy.
+  // Nó KHÔNG bị ẩn và cũng không thể vô tình bấm vào nút Daaaaa.
   noButton.addEventListener("touchstart", function(e) {
     e.preventDefault();
+    e.stopPropagation();
     moveNoButton();
   }, { passive: false });
 
-  // Nếu đổi kích thước màn hình, đưa nút về vị trí an toàn.
   window.addEventListener("resize", function() {
     if (noButton.style.position === "fixed") {
-      const margin = 20;
-      const maxX = Math.max(margin, window.innerWidth - noButton.offsetWidth - margin);
-      const maxY = Math.max(margin, window.innerHeight - noButton.offsetHeight - margin);
-
-      let x = parseFloat(noButton.style.left) || margin;
-      let y = parseFloat(noButton.style.top) || margin;
-
-      x = Math.min(Math.max(margin, x), maxX);
-      y = Math.min(Math.max(margin, y), maxY);
-
-      noButton.style.left = `${x}px`;
-      noButton.style.top = `${y}px`;
+      moveNoButton();
     }
   });
 
