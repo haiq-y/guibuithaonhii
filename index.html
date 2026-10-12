@@ -182,20 +182,28 @@
       }
     });
 
-    function moveNoButton() {
-      const maxX = window.innerWidth - noButton.offsetWidth - 20;
-      const maxY = window.innerHeight - noButton.offsetHeight - 20;
+  function moveNoButton() {
+  const buttonWidth = noButton.offsetWidth;
+  const buttonHeight = noButton.offsetHeight;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  const maxX = window.innerWidth - buttonWidth - 20;
+  const maxY = window.innerHeight - buttonHeight - 20;
 
-      noButton.style.position = "fixed";
-      noButton.style.left = x + "px";
-      noButton.style.top = y + "px";
-    }
+  const x = Math.max(20, Math.random() * maxX);
+  const y = Math.max(20, Math.random() * maxY);
 
-    noButton.addEventListener("mouseenter", moveNoButton);
-    noButton.addEventListener("touchstart", moveNoButton);
+  noButton.style.position = "fixed";
+  noButton.style.left = x + "px";
+  noButton.style.top = y + "px";
+  noButton.style.zIndex = "9999";
+}
+
+   noButton.addEventListener("mouseenter", moveNoButton);
+
+noButton.addEventListener("touchstart", function(e) {
+  e.preventDefault();
+  moveNoButton();
+});
 
     function createHeart() {
       const heart = document.createElement("div");
