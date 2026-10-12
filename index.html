@@ -93,6 +93,8 @@
       color: #ff4f81;
       border: 2px solid #ffb2c8;
       position: relative;
+      z-index: 9999;
+      touch-action: manipulation;
     }
 
     .message {
@@ -183,27 +185,51 @@
     });
 
   function moveNoButton() {
-  const buttonWidth = noButton.offsetWidth;
-  const buttonHeight = noButton.offsetHeight;
+    const margin = 20;
 
-  const maxX = window.innerWidth - buttonWidth - 20;
-  const maxY = window.innerHeight - buttonHeight - 20;
+    // Đổi sang fixed khi nút bắt đầu chạy để luôn tính theo màn hình.
+    noButton.style.position = "fixed";
+    noButton.style.zIndex = "9999";
 
-  const x = Math.max(20, Math.random() * maxX);
-  const y = Math.max(20, Math.random() * maxY);
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
 
-  noButton.style.position = "fixed";
-  noButton.style.left = x + "px";
-  noButton.style.top = y + "px";
-  noButton.style.zIndex = "9999";
-}
+    const maxX = Math.max(margin, window.innerWidth - buttonWidth - margin);
+    const maxY = Math.max(margin, window.innerHeight - buttonHeight - margin);
 
-   noButton.addEventListener("mouseenter", moveNoButton);
+    const x = margin + Math.random() * Math.max(0, maxX - margin);
+    const y = margin + Math.random() * Math.max(0, maxY - margin);
 
-noButton.addEventListener("touchstart", function(e) {
-  e.preventDefault();
-  moveNoButton();
-});
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+  }
+
+  // Máy tính: rê chuột vào là nút chạy.
+  noButton.addEventListener("mouseenter", moveNoButton);
+
+  // Điện thoại: chạm vào là nút chạy, không làm mất nút.
+  noButton.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton();
+  }, { passive: false });
+
+  // Nếu đổi kích thước màn hình, đưa nút về vị trí an toàn.
+  window.addEventListener("resize", function() {
+    if (noButton.style.position === "fixed") {
+      const margin = 20;
+      const maxX = Math.max(margin, window.innerWidth - noButton.offsetWidth - margin);
+      const maxY = Math.max(margin, window.innerHeight - noButton.offsetHeight - margin);
+
+      let x = parseFloat(noButton.style.left) || margin;
+      let y = parseFloat(noButton.style.top) || margin;
+
+      x = Math.min(Math.max(margin, x), maxX);
+      y = Math.min(Math.max(margin, y), maxY);
+
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
+    }
+  });
 
     function createHeart() {
       const heart = document.createElement("div");
