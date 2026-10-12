@@ -93,8 +93,6 @@
       color: #ff4f81;
       border: 2px solid #ffb2c8;
       position: relative;
-      z-index: 9999;
-      touch-action: manipulation;
     }
 
     .message {
@@ -184,59 +182,30 @@
       }
     });
 
-  function moveNoButton() {
-    const margin = 20;
-    const gap = 25;
+    function moveNoButton() {
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
 
-    // Luôn để nút Không ở trên cùng.
-    noButton.style.position = "fixed";
-    noButton.style.zIndex = "9999";
+      // Giới hạn trong khung nhìn màn hình để nút không bị tràn ra ngoài mất hút
+      const maxX = window.innerWidth - buttonWidth - 40;
+      const maxY = window.innerHeight - buttonHeight - 40;
 
-    const buttonWidth = noButton.offsetWidth;
-    const buttonHeight = noButton.offsetHeight;
+      const x = Math.max(20, Math.random() * maxX);
+      const y = Math.max(20, Math.random() * maxY);
 
-    const maxX = Math.max(margin, window.innerWidth - buttonWidth - margin);
-    const maxY = Math.max(margin, window.innerHeight - buttonHeight - margin);
-
-    // Tìm vị trí ngẫu nhiên nhưng KHÔNG đặt nút Không đè lên nút Daaaaa.
-    const yesRect = yesButton.getBoundingClientRect();
-    let x, y;
-    let tries = 0;
-
-    do {
-      x = margin + Math.random() * Math.max(0, maxX - margin);
-      y = margin + Math.random() * Math.max(0, maxY - margin);
-      tries++;
-
-      const overlapsYes =
-        x < yesRect.right + gap &&
-        x + buttonWidth > yesRect.left - gap &&
-        y < yesRect.bottom + gap &&
-        y + buttonHeight > yesRect.top - gap;
-
-      if (!overlapsYes || tries >= 100) break;
-    } while (true);
-
-    noButton.style.left = `${x}px`;
-    noButton.style.top = `${y}px`;
-  }
-
-  // Máy tính: rê chuột vào là nút Không chạy.
-  noButton.addEventListener("mouseenter", moveNoButton);
-
-  // Điện thoại: chạm vào là nút Không chạy.
-  // Nó KHÔNG bị ẩn và cũng không thể vô tình bấm vào nút Daaaaa.
-  noButton.addEventListener("touchstart", function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    moveNoButton();
-  }, { passive: false });
-
-  window.addEventListener("resize", function() {
-    if (noButton.style.position === "fixed") {
-      moveNoButton();
+      noButton.style.position = "fixed";
+      noButton.style.left = x + "px";
+      noButton.style.top = y + "px";
+      noButton.style.zIndex = "9999";
     }
-  });
+
+    // Dùng mouseover thay vì mouseenter để nhạy vừa phải, tránh bị giật mất chữ ngay lập tức
+    noButton.addEventListener("mouseover", moveNoButton);
+
+    // Bỏ e.preventDefault() ở touchstart để điện thoại vẫn có thể chạm vào mượt mà hơn mà không bị lỗi khựng/biến mất dị thường
+    noButton.addEventListener("touchstart", function(e) {
+      moveNoButton();
+    });
 
     function createHeart() {
       const heart = document.createElement("div");
