@@ -15,7 +15,7 @@
         body {
             width: 100vw;
             height: 100vh;
-            background: #f5eef0;
+            background: #fdf2f4;
             overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             display: flex;
@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* Trái tim bay hiệu ứng nền */
+        /* Hiệu ứng trái tim bay nền */
         .floating-heart {
             position: absolute;
             color: #d81b60;
@@ -40,7 +40,7 @@
             100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* Màn hình 1: Bông hồng + Nút bấm */
+        /* Màn hình chính */
         #welcome-screen {
             display: flex;
             flex-direction: column;
@@ -50,9 +50,9 @@
         }
 
         .rose-container {
-            width: 240px;
-            height: 260px;
-            margin-bottom: 25px;
+            width: 250px;
+            height: 270px;
+            margin-bottom: 20px;
             animation: floatRose 3s ease-in-out infinite;
         }
 
@@ -64,12 +64,12 @@
         .click-btn-text {
             background: none;
             border: none;
-            color: #b71c1c;
-            font-size: 32px;
+            color: #c2185b;
+            font-size: 30px;
             font-weight: 700;
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
             transition: transform 0.2s ease;
         }
 
@@ -77,7 +77,7 @@
             transform: scale(1.08);
         }
 
-        /* Màn hình 2: Bức thư */
+        /* Màn hình bức thư */
         #letter-screen {
             display: none;
             position: absolute;
@@ -153,46 +153,46 @@
     <div class="floating-heart" style="left: 70%; animation-delay: 1s;">💗</div>
     <div class="floating-heart" style="left: 85%; animation-delay: 3s;">💓</div>
 
-    <!-- Màn hình 1: Bông hoa nghiêng giống TikTok -->
+    <!-- Màn hình 1: Bông hoa hồng chuẩn mẫu TikTok -->
     <div id="welcome-screen">
         <div class="rose-container">
             <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Cành hoa nghiêng -->
-                <path d="M125 105 Q100 145 65 185" stroke="#558b2f" stroke-width="7" stroke-linecap="round"/>
+                <!-- Thân hoa uốn cong xuống dưới -->
+                <path d="M125 105 Q110 145 75 185" stroke="#4caf50" stroke-width="5" stroke-linecap="round"/>
                 
-                <!-- Lá trái -->
-                <path d="M88 158 C70 150 62 125 75 125 C88 125 95 142 88 158 Z" fill="#689f38" stroke="#33691e" stroke-width="1.5"/>
-                <!-- Lá phải -->
-                <path d="M102 140 C125 138 135 152 120 162 C105 172 98 152 102 140 Z" fill="#689f38" stroke="#33691e" stroke-width="1.5"/>
+                <!-- Lá bên trái -->
+                <path d="M85 152 C65 145 55 125 70 120 C85 115 95 135 85 152 Z" fill="#81c784" stroke="#4caf50" stroke-width="2"/>
                 
-                <!-- Đài hoa -->
-                <path d="M110 102 L132 108 L122 92 Z" fill="#558b2f"/>
+                <!-- Lá bên phải -->
+                <path d="M102 145 C125 142 135 158 120 168 C105 178 95 158 102 145 Z" fill="#81c784" stroke="#4caf50" stroke-width="2"/>
+                
+                <!-- Đài hoa bên dưới búp hồng -->
+                <path d="M108 98 L125 105 L118 90 Z" fill="#4caf50"/>
 
-                <!-- Các cánh hoa hồng xếp lớp -->
-                <!-- Cánh nền phía sau -->
-                <path d="M100 80 C80 60 85 30 115 25 C145 20 165 45 150 75 C138 98 112 95 100 80 Z" fill="#ad1457"/>
+                <!-- Các tầng cánh hoa hồng đỏ hồng thắm xếp lớp tự nhiên -->
+                <!-- Cánh sau cùng (đế nụ) -->
+                <path d="M115 88 C85 85 70 55 85 35 C100 15 135 20 148 45 C158 65 140 90 115 88 Z" fill="#c2185b"/>
                 
-                <!-- Cánh ngoài bên trái -->
-                <path d="M92 65 C80 40 105 20 130 25 C140 45 125 75 102 78 C90 80 88 72 92 65 Z" fill="#c2185b"/>
+                <!-- Cánh lớn ôm bên trái -->
+                <path d="M92 75 C70 60 75 30 100 25 C120 22 130 40 120 65 C112 85 98 85 92 75 Z" fill="#d81b60"/>
                 
-                <!-- Cánh xòe nhọn bên phải (đặc trưng trong hình) -->
-                <path d="M135 38 C155 32 170 42 165 52 C158 65 142 68 135 58 C130 50 132 40 135 38 Z" fill="#d81b60"/>
+                <!-- Cánh cong vươn sang phải (đặc trưng) -->
+                <path d="M122 55 C145 48 170 60 162 75 C155 90 135 88 125 75 C118 68 118 58 122 55 Z" fill="#e91e63"/>
                 
-                <!-- Cánh chính giữa -->
-                <path d="M105 52 C100 35 122 28 138 35 C148 48 138 68 122 70 C110 72 102 62 105 52 Z" fill="#e91e63"/>
+                <!-- Cánh trung tâm cuộn xoáy -->
+                <path d="M105 55 C98 38 120 30 135 42 C145 52 135 72 118 72 C108 72 108 62 105 55 Z" fill="#ec407a"/>
                 
-                <!-- Nụ/Lớp cuộn phía trong -->
-                <path d="M115 42 C110 32 126 28 134 35 C138 42 132 50 124 50 C118 50 112 46 115 42 Z" fill="#f48fb1"/>
+                <!-- Tâm hoa phía trong cùng -->
+                <path d="M115 45 C110 38 125 35 130 42 C135 48 128 55 120 52 C115 50 113 47 115 45 Z" fill="#f48fb1"/>
             </svg>
         </div>
         
-        <!-- Nút Click dạng chữ đỏ giống hệt TikTok -->
         <button class="click-btn-text" onclick="openLetter()">
             Click me now !
         </button>
     </div>
 
-    <!-- Màn hình 2: Bức thư chúc mừng -->
+    <!-- Màn hình 2: Bức thư mở ra -->
     <div id="letter-screen">
         <div class="letter-header">
             <span>From With Love 20/10</span>
